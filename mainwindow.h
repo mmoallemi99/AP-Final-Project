@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QtSql>
+#include <QSqlDatabase>
 
 namespace Ui {
 class MainWindow;
@@ -18,9 +18,11 @@ public:
 
 private slots:
     void on_new_product_clicked();
+    void on_search_clicked();
 
 private:
     Ui::MainWindow *ui;
+    QSqlDatabase db;
 };
 
 #endif // MAINWINDOW_H

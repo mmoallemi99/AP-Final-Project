@@ -28,14 +28,17 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     product.cpp \
+    authentication.cpp
 
 HEADERS += \
         mainwindow.h \
     product.h \
+    authentication.h
 
 FORMS += \
         mainwindow.ui \
-    new_product.ui
+    new_product.ui \
+    authentication.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
