@@ -1,6 +1,8 @@
 #include "authentication.h"
 #include "ui_authentication.h"
 
+#include "index.h"
+
 #include <QString>
 #include <QSqlDatabase>
 #include <QSqlQuery>
@@ -11,18 +13,25 @@
 #include <QMessageBox>
 
 
-Authentication::Authentication(QWidget *parent) :
+Authentication::Authentication(QWidget *parent, QSqlDatabase *db) :
     QDialog(parent),
     ui(new Ui::Authentication)
 {
     ui->setupUi(this);
 
-    db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("db.sqlite3");
-    db.open();
+    this->db = *db;
 
-    if ( !db.isOpen() )
-        QMessageBox::information(this, "well fuck", "");
+
+    QWidget *wtf = new QWidget(this);
+    wtf->setObjectName(QStringLiteral("wtf"));
+    wtf->setGeometry(QRect(100, 80, 351, 61));
+    wtf->show();
+    wtf->activateWindow();
+
+
+
+    if ( !db->isOpen() )
+        QMessageBox::information(this, "Connection is ....ed Up!", "");
 
     QString qry_cmd = "CREATE TABLE users (username varchar(30) primary key,"
                       "password varchar(100));";
@@ -38,21 +47,32 @@ Authentication::~Authentication()
 
 void Authentication::on_login_clicked()
 {
-    QString username = ui->username->text();
-    QString password = ui->password->text();
-    QString hashed_password;
-    hashed_password = QString(QCryptographicHash::hash((password.toLocal8Bit()), QCryptographicHash::Sha256).toHex());
+    QString entered_username = ui->username->text();
+    QString entered_password = ui->password->text();
 
-    QString qry_cmd = "SELECT username FROM users WHERE username='%1' FETCH FIRST ROW ONLY";
-    qry_cmd = qry_cmd.arg(username);
+    QString hashed_password;
+    hashed_password = QString(QCryptographicHash::hash((entered_password.toLocal8Bit()), QCryptographicHash::Sha256).toHex());
+
+    QString qry_cmd = "SELECT * FROM users WHERE username='%1'";
+    qry_cmd = qry_cmd.arg(entered_username);
     QSqlQuery query;
-    query.prepare(qry_cmd);
-    query.exec();
-    QMessageBox::information(this, "Registration Message", "Can Login");
-//    if ( query.next() == username )
-//    {
-//        QMessageBox::information(this, "Registration Message", "Can Login");
-//    }
+    query.exec(qry_cmd);
+    query.next();
+    QString username = query.value("username").toString();
+
+    if ( username == entered_username )
+    {
+        QString hashed_password;
+        hashed_password = QString(QCryptographicHash::hash((entered_password.toLocal8Bit()), QCryptographicHash::Sha256).toHex());
+
+        QString password = query.value("password").toString();
+        if ( hashed_password == password )
+        {
+            class index index(nullptr, &(this->db));
+            index.show();
+            index.exec();
+        }
+    }
 
 }
 

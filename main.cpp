@@ -1,4 +1,3 @@
-#include "mainwindow.h"
 #include "authentication.h"
 
 #include <QApplication>
@@ -7,11 +6,15 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    Authentication auth;
+    QSqlDatabase db;
+    db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName("db.sqlite3");
+    db.open();
+
+    Authentication auth(nullptr, &db);
     auth.show();
 
-//    MainWindow w;
-//    w.show();
+
 
     return a.exec();
 }

@@ -15,7 +15,8 @@ Product::Product(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QString qry_cmd = "CREATE TABLE products (name varchar(30) primary key,"
+    QString qry_cmd = "CREATE TABLE products (name varchar(30) primary key, "
+                      "country varchar(30)"
                       "type varchar(30),"
                       "description varchar(300),"
                       "price int,"
@@ -33,15 +34,16 @@ Product::~Product()
 void Product::on_add_product_clicked()
 {
     QString name = this->ui->name_input->text();
+    QString country = this->ui->name_input->text();
     QString type = this->ui->type_select->currentText();
     QString description = this->ui->description_input->toPlainText();
     long long int price = this->ui->price_input->text().toLongLong();
     long int stock_available = this->ui->stock_available_input->text().toLong();
 
     QSqlQuery query;
-    QString qry_cmd = "INSERT INTO main.products(name, type, description, price, stock_available)"
-                      "VALUES ('%1', '%2', '%3', '%4', '%5');";
-    qry_cmd = qry_cmd.arg(name, type, description, QString::number(price), QString::number(stock_available));
+    QString qry_cmd = "INSERT INTO main.products(name, country, type, description, price, stock_available)"
+                      "VALUES ('%1', '%2', '%3', '%4', '%5', '%6');";
+    qry_cmd = qry_cmd.arg(name, country, type, description, QString::number(price), QString::number(stock_available));
     query.prepare(qry_cmd);
     query.exec();
 }

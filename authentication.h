@@ -13,7 +13,7 @@ class Authentication : public QDialog
     Q_OBJECT
 
 public:
-    explicit Authentication(QWidget *parent = nullptr);
+    explicit Authentication(QWidget *parent = nullptr, QSqlDatabase *db = nullptr);
     ~Authentication();
 
 private slots:
@@ -23,8 +23,6 @@ private slots:
 private:
     Ui::Authentication *ui;
     QSqlDatabase db;
-
-
 };
 
 #endif // AUTHENTICATION_H

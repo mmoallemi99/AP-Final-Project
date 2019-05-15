@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>index</class>
+ <widget class="QDialog" name="index">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>30</y>
+     <width>491</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="search_box">
+    <item>
+     <widget class="QPushButton" name="search">
+      <property name="text">
+       <string>جستجو</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QComboBox" name="type_select">
+      <item>
+       <property name="text">
+        <string>Name</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Type</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Country</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="search_input"/>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="db_status">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>310</y>
+     <width>91</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>db_status</string>
+   </property>
+  </widget>
+  <widget class="QCommandLinkButton" name="new_product">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>150</y>
+     <width>177</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>محصول جدید</string>
+   </property>
+  </widget>
+  <widget class="QCommandLinkButton" name="all_products">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>150</y>
+     <width>177</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>تمامی محصولات</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
