@@ -2,6 +2,7 @@
 #include "ui_index.h"
 
 #include "product.h"
+#include "shop.h"
 
 #include <QtSql>
 #include <QSqlTableModel>
@@ -40,12 +41,24 @@ void index::on_new_product_clicked()
 void index::on_search_clicked()
 {
     QString search_input = ui->search_input->text();
-    QString selected_type = ui->type_select->currentText();
+    QString search_by = ui->search_by->currentText();
+
+    if ( search_by == "-----" )
+    {
+        QMessageBox::information(this, "Field Required", "Please Select What You Want To Search By");
+        return;
+    }
+    else if ( search_input == "" )
+    {
+        QMessageBox::information(this, "Field Required", "Please Type Search Text");
+        return;
+    }
+
     QSqlTableModel *model = new QSqlTableModel(this, db);
     model->setTable("products");
 
-    QString filter = "name LIKE '%%1%' AND type='%2'";
-    filter = filter.arg(search_input, selected_type);
+    QString filter = "%1 LIKE '%%2%'";
+    filter = filter.arg(search_by, search_input);
     model->setFilter(filter);
     model->select();
 
@@ -57,5 +70,7 @@ void index::on_search_clicked()
 
 void index::on_all_products_clicked()
 {
-
+    shop all_products(this, &(this->db));
+    all_products.show();
+    all_products.exec();
 }

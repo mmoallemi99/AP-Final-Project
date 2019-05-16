@@ -22,14 +22,6 @@ Authentication::Authentication(QWidget *parent, QSqlDatabase *db) :
     this->db = *db;
 
 
-    QWidget *wtf = new QWidget(this);
-    wtf->setObjectName(QStringLiteral("wtf"));
-    wtf->setGeometry(QRect(100, 80, 351, 61));
-    wtf->show();
-    wtf->activateWindow();
-
-
-
     if ( !db->isOpen() )
         QMessageBox::information(this, "Connection is ....ed Up!", "");
 
@@ -57,7 +49,13 @@ void Authentication::on_login_clicked()
     qry_cmd = qry_cmd.arg(entered_username);
     QSqlQuery query;
     query.exec(qry_cmd);
-    query.next();
+
+    if ( !query.next() )
+    {
+        QMessageBox::information(this, "Login Failed", "User Does Not Exist \n Register Now!");
+        return;
+    }
+
     QString username = query.value("username").toString();
 
     if ( username == entered_username )
@@ -95,7 +93,7 @@ void Authentication::on_sign_up_clicked()
     }
     else
     {
-        QMessageBox::information(this, "Registration Message", "Something Went Wrong :( \n Please Try Again :) ");
+        QMessageBox::information(this, "Registration Message", "Wrong Username or Password! \n Please Try Again!");
     }
 }
 

@@ -1,2 +1,5 @@
-<!DOCTYPE RCC>
-<RCC version="1.0"/>
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/forms">
+<file>new_product.ui</file>
+</qresource>
+</RCC>

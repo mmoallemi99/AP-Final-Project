@@ -6,8 +6,8 @@
 #include <QFile>
 #include <QTextStream>
 #include <QMessageBox>
+#include <QSqlDatabase>
 
-#define products_file "products_file.txt"
 
 namespace Ui {
 
@@ -19,7 +19,7 @@ class Product : public QDialog
     Q_OBJECT
 
 public:
-    explicit Product(QWidget *parent = nullptr);
+    explicit Product(QWidget *parent = nullptr, QSqlDatabase *db = nullptr);
     ~Product();
 
 private slots:
@@ -27,6 +27,14 @@ private slots:
 
 private:
     Ui::Product *ui;
+    QSqlDatabase db;
+
+    QString name;
+    QString country;
+    QString type;
+    QString description;
+    long long int price;
+    long int stock_available;
 };
 
 

@@ -28,22 +28,24 @@ SOURCES += \
         main.cpp \
     authentication.cpp \
     product.cpp \
-    index.cpp
+    index.cpp \
+    shop.cpp
 
-RESOURCES = \
-    all_product.qrc
+RESOURCES =
 
 
 HEADERS += \
     authentication.h \
+    index.h \
     product.h \
-    index.h
+    shop.h
 
 
 FORMS += \
     new_product.ui \
     authentication.ui \
-    index.ui
+    index.ui \
+    shop.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
