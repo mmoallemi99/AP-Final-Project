@@ -29,7 +29,8 @@ SOURCES += \
     authentication.cpp \
     product.cpp \
     index.cpp \
-    shop.cpp
+    shop.cpp \
+    credit_manager.cpp
 
 RESOURCES =
 
@@ -38,14 +39,16 @@ HEADERS += \
     authentication.h \
     index.h \
     product.h \
-    shop.h
+    shop.h \
+    credit_manager.h
 
 
 FORMS += \
     new_product.ui \
     authentication.ui \
     index.ui \
-    shop.ui
+    shop.ui \
+    credit_manager.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

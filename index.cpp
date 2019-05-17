@@ -4,16 +4,30 @@
 #include "product.h"
 #include "shop.h"
 
+#include "credit_manager.h"
+
 #include <QtSql>
 #include <QSqlTableModel>
 #include <QTableView>
 
-index::index(QWidget *parent, QSqlDatabase *db) :
+index::index(QWidget *parent, QSqlDatabase *db, QString user):
     QDialog(parent),
     ui(new Ui::index)
 {
     this->db = *db;
     ui->setupUi(this);
+    ui->logged_in_user->setText(user);
+    this->user = user;
+
+
+    QSqlQuery query;
+    QString qry_cmd = "SELECT credit FROM users WHERE username='%1';";
+    qry_cmd = qry_cmd.arg(user);
+    query.prepare(qry_cmd);
+    query.exec();
+    query.next();
+    ui->user_credit->setText(query.value(0).toString());
+
 
     if ( !db->open() )
     {
@@ -70,7 +84,23 @@ void index::on_search_clicked()
 
 void index::on_all_products_clicked()
 {
-    shop all_products(this, &(this->db));
+    shop all_products(this, &(this->db), user);
     all_products.show();
     all_products.exec();
+}
+
+void index::on_credit_manager_clicked()
+{
+
+    credit_manager crdt(nullptr, user);
+    crdt.show();
+    crdt.exec();
+
+    QSqlQuery query;
+    QString qry_cmd = "SELECT credit FROM users WHERE username='%1';";
+    qry_cmd = qry_cmd.arg(user);
+    query.prepare(qry_cmd);
+    query.exec();
+    query.next();
+    this->ui->user_credit->setText(query.value(0).toString());
 }

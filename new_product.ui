@@ -31,7 +31,11 @@
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QLineEdit" name="name_input"/>
+     <widget class="QLineEdit" name="name_input">
+      <property name="placeholderText">
+       <string>Product Name</string>
+      </property>
+     </widget>
     </item>
     <item row="1" column="0">
      <widget class="QLabel" name="country">
@@ -41,7 +45,11 @@
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QLineEdit" name="country_input"/>
+     <widget class="QLineEdit" name="country_input">
+      <property name="placeholderText">
+       <string>Country Manufacturer</string>
+      </property>
+     </widget>
     </item>
     <item row="2" column="0">
      <widget class="QLabel" name="type">
@@ -54,32 +62,37 @@
      <widget class="QComboBox" name="type_select">
       <item>
        <property name="text">
+        <string>-----</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
         <string>Coffee</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>Toys</string>
+        <string>Chocolate</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>Music</string>
+        <string>Meat</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>Movies</string>
+        <string>Junk Food</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>Food</string>
+        <string>Fast Food</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>Household Stuff</string>
+        <string>Others</string>
        </property>
       </item>
      </widget>
@@ -102,7 +115,11 @@
      </widget>
     </item>
     <item row="4" column="1">
-     <widget class="QLineEdit" name="price_input"/>
+     <widget class="QLineEdit" name="price_input">
+      <property name="placeholderText">
+       <string>Product Price</string>
+      </property>
+     </widget>
     </item>
     <item row="5" column="0">
      <widget class="QLabel" name="stock_available">
@@ -112,7 +129,11 @@
      </widget>
     </item>
     <item row="5" column="1">
-     <widget class="QLineEdit" name="stock_available_input"/>
+     <widget class="QLineEdit" name="stock_available_input">
+      <property name="placeholderText">
+       <string notr="true">Amounts Available</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

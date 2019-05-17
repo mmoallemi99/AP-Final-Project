@@ -26,7 +26,8 @@ Authentication::Authentication(QWidget *parent, QSqlDatabase *db) :
         QMessageBox::information(this, "Connection is ....ed Up!", "");
 
     QString qry_cmd = "CREATE TABLE users (username varchar(30) primary key,"
-                      "password varchar(100));";
+                      "password varchar(100),"
+                      "credit int);";
     QSqlQuery query;
     query.prepare(qry_cmd);
     query.exec();
@@ -66,11 +67,16 @@ void Authentication::on_login_clicked()
         QString password = query.value("password").toString();
         if ( hashed_password == password )
         {
-            class index index(nullptr, &(this->db));
+            class index index(nullptr, &(this->db), username);
             index.show();
             index.exec();
         }
+        else
+        {
+            QMessageBox::information(this, "Login Message", "Wrong Username or Password! \n Please Try Again!");
+        }
     }
+
 
 }
 
@@ -81,20 +87,23 @@ void Authentication::on_sign_up_clicked()
     QString hashed_password;
     hashed_password = QString(QCryptographicHash::hash((password.toLocal8Bit()), QCryptographicHash::Sha256).toHex());
 
-    QString qry_cmd = "INSERT INTO users(username, password) "
-                      "values(:username, :password);";
+    QString qry_cmd = "INSERT INTO users(username, password, credit) "
+                      "values(:username, :password, :credit);";
     QSqlQuery query;
     query.prepare(qry_cmd);
     query.bindValue(":username", username);
     query.bindValue(":password", hashed_password);
+    query.bindValue(":credit", 0);
+
     if ( query.exec() )
     {
-        QMessageBox::information(this, "Registration Message", "You Have Registered Successfully! \n Now You Can Login");
+        QMessageBox::information(this, "Registration Message", "You Have Registered Successfully!\nNow You Can Login");
     }
     else
     {
-        QMessageBox::information(this, "Registration Message", "Wrong Username or Password! \n Please Try Again!");
+        QMessageBox::information(this, "Registration Message", "Username Exists!\nPlease Use Another Username!");
     }
+
 }
 
 

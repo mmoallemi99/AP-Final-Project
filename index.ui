@@ -13,89 +13,190 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QWidget" name="horizontalLayoutWidget">
+  <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>30</y>
-     <width>491</width>
-     <height>71</height>
+     <x>80</x>
+     <y>130</y>
+     <width>501</width>
+     <height>171</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="search_box">
+   <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QPushButton" name="search">
+     <layout class="QHBoxLayout" name="search_box">
+      <item>
+       <widget class="QPushButton" name="search">
+        <property name="text">
+         <string>Search</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="search_by">
+        <item>
+         <property name="text">
+          <string>-----</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Name</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Type</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Country</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="search_input"/>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="product_box">
+      <item>
+       <widget class="QCommandLinkButton" name="all_products">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>All Products</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCommandLinkButton" name="new_product">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="acceptDrops">
+         <bool>false</bool>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text">
+         <string>New Product</string>
+        </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QCommandLinkButton" name="credit_manager">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Charge Account / Redeem Coupon</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCommandLinkButton" name="new_product_2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>New Product</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget_4">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>310</y>
+     <width>311</width>
+     <height>151</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <item>
+     <widget class="QLabel" name="user_credit">
       <property name="text">
-       <string>Search</string>
+       <string>user_credit</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QComboBox" name="search_by">
-      <item>
-       <property name="text">
-        <string>-----</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Name</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Type</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Country</string>
-       </property>
-      </item>
+     <widget class="QLabel" name="db_status">
+      <property name="text">
+       <string>db_status</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
      </widget>
-    </item>
-    <item>
-     <widget class="QLineEdit" name="search_input"/>
     </item>
    </layout>
   </widget>
-  <widget class="QLabel" name="db_status">
+  <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>260</x>
-     <y>310</y>
-     <width>91</width>
-     <height>21</height>
+     <x>170</x>
+     <y>30</y>
+     <width>301</width>
+     <height>91</height>
     </rect>
    </property>
    <property name="text">
-    <string>db_status</string>
+    <string>Hello
+
+
+Welcome To The Secret Shop!</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QCommandLinkButton" name="new_product">
+  <widget class="QLabel" name="logged_in_user">
    <property name="geometry">
     <rect>
-     <x>390</x>
-     <y>150</y>
-     <width>177</width>
-     <height>41</height>
+     <x>140</x>
+     <y>70</y>
+     <width>361</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>New Product</string>
+    <string>logged_in_user</string>
    </property>
-  </widget>
-  <widget class="QCommandLinkButton" name="all_products">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>150</y>
-     <width>177</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>All Products</string>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>
