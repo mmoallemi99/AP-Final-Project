@@ -16,7 +16,9 @@ public:
     explicit shop(QWidget *parent = 0, QSqlDatabase *db = nullptr, QString user = nullptr);
     ~shop();
 private slots:
-    void item_buy();
+    bool item_buy();
+    void item_edit();
+    bool item_delete();
 
 private:
     Ui::shop *ui;

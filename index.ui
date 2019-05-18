@@ -57,13 +57,17 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="search_input"/>
+       <widget class="QLineEdit" name="search_input">
+        <property name="placeholderText">
+         <string>Enter Your Search Text...</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="product_box">
-      <item>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="0">
        <widget class="QCommandLinkButton" name="all_products">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -76,7 +80,33 @@
         </property>
        </widget>
       </item>
-      <item>
+      <item row="1" column="1">
+       <widget class="QCommandLinkButton" name="new_product_2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Support</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QCommandLinkButton" name="credit_manager">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Charge Account / Redeem Coupon</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
        <widget class="QCommandLinkButton" name="new_product">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -95,36 +125,6 @@
         </property>
         <property name="default">
          <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QCommandLinkButton" name="credit_manager">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Charge Account / Redeem Coupon</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCommandLinkButton" name="new_product_2">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>New Product</string>
         </property>
        </widget>
       </item>

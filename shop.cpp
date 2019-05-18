@@ -9,10 +9,11 @@
 #include <QPushButton>
 #include <QLabel>
 
-#include <iostream>
-
 #include <QMap>
 #include <QVector>
+
+#include <QSqlTableModel>
+#include <QTableView>
 
 
 shop::shop(QWidget *parent, QSqlDatabase *db, QString user) :
@@ -21,7 +22,7 @@ shop::shop(QWidget *parent, QSqlDatabase *db, QString user) :
 {
     //    ui->setupUi(this);
 
-    QString qry_cmd = "SELECT * FROM products LIMIT 5;";
+    QString qry_cmd = "SELECT * FROM products;";
     QSqlQuery query;
     query.exec(qry_cmd);
 
@@ -58,6 +59,7 @@ shop::shop(QWidget *parent, QSqlDatabase *db, QString user) :
     new_price_label = new QLabel(this);
     new_available_label = new QLabel(this);
 
+
     new_name_label->setObjectName("name_header");
     new_name_label->setText("Product Name");
     all_products_grid->addWidget(new_name_label, 1, 0, 2, 2);
@@ -66,11 +68,9 @@ shop::shop(QWidget *parent, QSqlDatabase *db, QString user) :
     new_type_label->setText("Product Type");
     all_products_grid->addWidget(new_type_label, 1, 1, 2, 2);
 
-
     new_price_label->setObjectName("price_header");
     new_price_label->setText("Product Price");
     all_products_grid->addWidget(new_price_label, 1, 2, 2, 2);
-
 
     new_available_label->setObjectName("avilable_header");
     new_available_label->setText("Stock Available");
@@ -123,10 +123,13 @@ shop::shop(QWidget *parent, QSqlDatabase *db, QString user) :
         new_edit->setObjectName(product_dict["name"] + "_edit");
         new_edit->setText("edit");
         all_products_grid->addWidget(new_edit, i, 5, 1, 1);
+        connect(new_edit, SIGNAL(clicked()), this, SLOT (item_edit()));
 
         new_delete->setObjectName(product_dict["name"] + "_delete");
         new_delete->setText("delete");
         all_products_grid->addWidget(new_delete, i, 4, 1, 1);
+        connect(new_delete, SIGNAL(clicked()), this, SLOT(item_delete()));
+
         i++;
     }
 
@@ -154,7 +157,7 @@ shop::~shop()
     delete ui;
 }
 
-void shop::item_buy()
+bool shop::item_buy()
 {
     QObject *sender = this->sender();
     QString user = sender->parent()->findChild<QLabel *>("username_label")->text();
@@ -169,7 +172,7 @@ void shop::item_buy()
     if ( item_available == 0 )
     {
         QMessageBox::information(this, "Can't Buy :(", "Sorry This Item Is Out of Stock!");
-        return;
+        return false;
     }
 
     QLabel *price_label = sender->parent()->findChild<QLabel *>(item_name + "_price");
@@ -181,7 +184,7 @@ void shop::item_buy()
     {
         QMessageBox::information(this, "Not Enough Credit!", "Sorry But You Don't Have Enough Credits For This Item\n"
                                                              "You Can Close This Page & Charge Your Account From Main Menu");
-        return;
+        return false;
     }
 
     item_available -= 1;
@@ -207,10 +210,72 @@ void shop::item_buy()
     QString success_msg = "You Bought %1 And It Cost You %2";
     success_msg = success_msg.arg(item_name, QString::number(item_price));
     QMessageBox::information(this, "Success!", success_msg);
-    return;
+    return true;
 }
 
+void shop::item_edit()
+{
+    QObject *sender = this->sender();
 
+    QString item_name = sender->objectName();
+    int name_length = item_name.length();
+    item_name = item_name.remove(name_length - 5, name_length);
+
+    QSqlTableModel *table_model = new QSqlTableModel(this, this->db);
+    table_model->setTable("products");
+
+    QString filter = "name LIKE '%1';";
+    filter = filter.arg(item_name);
+    table_model->setFilter(filter);
+    table_model->select();
+
+    QTableView *table_view = new QTableView;
+    table_view->setModel(table_model);
+    table_view->show();
+
+}
+
+bool shop::item_delete()
+{
+    QObject *sender = this->sender();
+
+    QString item_name = sender->objectName();
+    int name_length = item_name.length();
+    item_name = item_name.remove(name_length - 7, name_length);
+
+    QSqlQuery query;
+    QString qry_cmd = "DELETE FROM products WHERE name='%1';";
+    qry_cmd = qry_cmd.arg(item_name);
+
+    query.prepare(qry_cmd);
+    if ( !query.exec() )
+    {
+        QString msg = "A Problem Occured While Trying To Delete Item: %1";
+        msg = msg.arg(item_name);
+        QMessageBox::information(this, "Failed!", msg);
+        return false;
+    }
+
+
+    QLabel *name_label = this->findChild<QLabel *>(item_name + "_name");
+    QLabel *type_label = this->findChild<QLabel *>(item_name + "_type");
+    QLabel *price_label = this->findChild<QLabel *>(item_name + "_price");
+    QLabel *available_label = this->findChild<QLabel *>(item_name + "_available");
+
+    QPushButton *buy_button = this->findChild<QPushButton *>(item_name + "_buy");
+    QPushButton *delete_button = this->findChild<QPushButton *>(item_name + "_delete");
+    QPushButton *edit_button = this->findChild<QPushButton *>(item_name + "_edit");
+
+    delete name_label;
+    delete type_label;
+    delete price_label;
+    delete available_label;
+    delete buy_button;
+    delete delete_button;
+    delete edit_button;
+
+    return true;
+}
 
 
 
