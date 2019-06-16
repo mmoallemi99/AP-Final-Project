@@ -21,7 +21,8 @@ Product::Product(QWidget *parent):
                       "type varchar(30),"
                       "description varchar(300),"
                       "price int,"
-                      "stock_available int);";
+                      "stock_available int,"
+                      "'group' varchar(30));";
     QSqlQuery query;
     query.prepare(qry_cmd);
     query.exec();
@@ -41,17 +42,18 @@ void Product::on_add_product_clicked()
     description = this->ui->description_input->toPlainText();
     price = this->ui->price_input->text().toLongLong();
     stock_available = this->ui->stock_available_input->text().toLong();
+    group = this->ui->group_input->text();
 
-    if (  name == "" || country == "" || type == "" || description == "" || price == 0 || stock_available == 0 )
+    if (  name == "" || country == "" || type == "" || price == 0 || stock_available == 0 )
     {
         QMessageBox::warning(this, "Invalid Form", "You Must Fill All The Fields");
         return;
     }
 
     QSqlQuery query;
-    QString qry_cmd = "INSERT INTO main.products(name, country, type, description, price, stock_available)"
-                      "VALUES ('%1', '%2', '%3', '%4', '%5', '%6');";
-    qry_cmd = qry_cmd.arg(name, country, type, description, QString::number(price), QString::number(stock_available));
+    QString qry_cmd = "INSERT INTO main.products(name, country, type, description, price, stock_available, 'group')"
+                      "VALUES ('%1', '%2', '%3', '%4', '%5', '%6', '%7');";
+    qry_cmd = qry_cmd.arg(name, country, type, description, QString::number(price), QString::number(stock_available), group);
     query.prepare(qry_cmd);
     if ( query.exec() )
     {

@@ -34,7 +34,7 @@ shop::shop(QWidget *parent, class user *user) :
     QPushButton *new_delete;
     QPushButton *new_edit;
 
-    QMap<QString, QString> product_dict;
+
 
     QWidget *all_products_widget = new QWidget(this);
     all_products_widget->setObjectName(QStringLiteral("formLayoutWidget"));
@@ -92,6 +92,7 @@ shop::shop(QWidget *parent, class user *user) :
         product_dict["price"] = query.value("price").toString();
         product_dict["stock_available"] = query.value("stock_available").toString();
 
+
         new_name_label->setObjectName(product_dict["name"] + "_name");
         new_name_label->setText(product_dict["name"]);
         all_products_grid->addWidget(new_name_label, i, 0);
@@ -114,7 +115,7 @@ shop::shop(QWidget *parent, class user *user) :
         new_available_label->setText(product_dict["stock_available"]);
         all_products_grid->addWidget(new_available_label, i, 4);
 
-        if ( !user->get_is_admin() )
+        if ( ! user->get_is_admin() )
         {
             new_buy->setObjectName(product_dict["name"] + "_buy");
             new_buy->setText("buy");
@@ -215,6 +216,7 @@ bool shop::item_buy()
     QString success_msg = "You Bought %1 And It Cost You %2";
     success_msg = success_msg.arg(item_name, QString::number(item_price));
     QMessageBox::information(this, "Success!", success_msg);
+    this->parent()->findChild<QLabel *>("user_credit")->setText(QString::number(user_credit));
     return true;
 }
 
@@ -237,6 +239,31 @@ void shop::item_edit()
     QTableView *table_view = new QTableView;
     table_view->setModel(table_model);
     table_view->show();
+
+
+    //    QLabel *name_label = this->findChild<QLabel *>(item_name + "_name");
+    //    QLabel *country_label = this->findChild<QLabel *>(item_name + "_country");
+    //    QLabel *type_label = this->findChild<QLabel *>(item_name + "_type");
+    //    QLabel *price_label = this->findChild<QLabel *>(item_name + "_price");
+    //    QLabel *available_label = this->findChild<QLabel *>(item_name + "_available");
+
+    //    QString qry_cmd = "SELECT name, country, type, price, stock_available FROM products WHERE name='%1';";
+    //    qry_cmd = qry_cmd.arg(item_name);
+    //    QSqlQuery query;
+    //    query.exec(qry_cmd);
+    //    query.next();
+
+    //    product_dict["name"] = query.value("name").toString();
+    //    product_dict["country"] = query.value("country").toString();
+    //    product_dict["type"] = query.value("type").toString();
+    //    product_dict["price"] = query.value("price").toString();
+    //    product_dict["stock_available"] = query.value("stock_available").toString();
+
+    //    name_label->setText(product_dict["name"]);
+    //    country_label->setText(product_dict["country"]);
+    //    type_label->setText(product_dict["type"]);
+    //    price_label->setText(product_dict["price"]);
+    //    available_label->setText(product_dict["stock_available"]);
 
 }
 
@@ -263,6 +290,7 @@ bool shop::item_delete()
 
 
     QLabel *name_label = this->findChild<QLabel *>(item_name + "_name");
+    QLabel *country_label = this->findChild<QLabel *>(item_name + "_country");
     QLabel *type_label = this->findChild<QLabel *>(item_name + "_type");
     QLabel *price_label = this->findChild<QLabel *>(item_name + "_price");
     QLabel *available_label = this->findChild<QLabel *>(item_name + "_available");
@@ -272,6 +300,7 @@ bool shop::item_delete()
     QPushButton *edit_button = this->findChild<QPushButton *>(item_name + "_edit");
 
     delete name_label;
+    delete country_label;
     delete type_label;
     delete price_label;
     delete available_label;

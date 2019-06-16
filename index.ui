@@ -72,6 +72,11 @@
           <string>Country</string>
          </property>
         </item>
+        <item>
+         <property name="text">
+          <string>Group</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item>

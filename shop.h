@@ -27,6 +27,7 @@ private:
      QSqlDatabase db;
     int user_credit;
     class user *user;
+    QMap<QString, QString> product_dict;
 };
 
 #endif // SHOP_H

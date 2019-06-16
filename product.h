@@ -31,6 +31,7 @@ private:
     QString name;
     QString country;
     QString type;
+    QString group;
     QString description;
     long long int price;
     long int stock_available;

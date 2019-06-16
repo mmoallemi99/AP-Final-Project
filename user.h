@@ -12,7 +12,7 @@ class user : public QVariant
 public:
     user(QString username);
 
-    static bool sign_up(QString username, QString password);
+    static bool sign_up(QString username, QString password, bool is_admin);
     static QString login(QString username, QString password);
 
     QString get_username();

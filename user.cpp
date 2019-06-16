@@ -23,7 +23,7 @@ user::user(QString username)
     this->is_admin = record.value("is_admin").toInt();
 }
 
-bool user::sign_up(QString username, QString password)
+bool user::sign_up(QString username, QString password, bool is_admin)
 {
     QString hashed_password;
     hashed_password = QString(QCryptographicHash::hash((password.toLocal8Bit()), QCryptographicHash::Sha256).toHex());
@@ -35,7 +35,10 @@ bool user::sign_up(QString username, QString password)
     query.bindValue(":username", username);
     query.bindValue(":password", hashed_password);
     query.bindValue(":credit", 0);
-    query.bindValue(":is_admin", 0);
+    if ( is_admin )
+        query.bindValue(":is_admin", 1);
+    else
+        query.bindValue(":is_admin", 0);
 
     return query.exec();
 }

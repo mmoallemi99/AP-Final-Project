@@ -112,7 +112,7 @@ void index::on_search_clicked()
     QSqlTableModel *model = new QSqlTableModel(this, db);
     model->setTable("products");
 
-    QString filter = "%1 LIKE '%%2%'";
+    QString filter = "\"%1\" LIKE '%%2%'";
     filter = filter.arg(search_by, search_input);
     model->setFilter(filter);
     model->select();
@@ -132,7 +132,7 @@ void index::on_all_products_clicked()
 
 void index::on_credit_manager_clicked()
 {
-    credit_manager crdt(nullptr, user->get_username());
+    credit_manager crdt(this, user->get_username());
     crdt.show();
     crdt.exec();
 

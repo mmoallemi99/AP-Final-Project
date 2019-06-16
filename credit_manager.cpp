@@ -29,6 +29,11 @@ void credit_manager::on_charge_credit_clicked()
     QString user = this->ui->logged_in_user->text();
 
     QString credit_deposit = this->ui->charge_credit_input->text();
+    if (credit_deposit == "" )
+    {
+        QMessageBox::warning(this, "Failed!", "Please Enter a Number!");
+        return;
+    }
     QSqlQuery query;
     QString qry_cmd = "SELECT credit FROM users WHERE username='%1';";
     qry_cmd = qry_cmd.arg(user);
@@ -46,6 +51,7 @@ void credit_manager::on_charge_credit_clicked()
     QString success_msg = "You Deposited %1 To Account %2\nCurrent Credit: %3";
     success_msg = success_msg.arg(credit_deposit, user, QString::number(current_credit));
     QMessageBox::information(this, "Success!", success_msg);
+    this->parent()->findChild<QLabel *>("user_credit")->setText(QString::number(current_credit));
 }
 
 
@@ -53,6 +59,12 @@ void credit_manager::on_redeem_coupon_clicked()
 {
     QString user = this->ui->logged_in_user->text();
     QString entered_coupon = this->ui->redeem_coupon_input->text();
+
+    if (entered_coupon == "" )
+    {
+        QMessageBox::warning(this, "Failed!", "Please Enter Your Coupon!");
+        return;
+    }
 
     if ( !coupons.contains(entered_coupon) )
         QMessageBox::information(this, "Wrong Coupon", "");
@@ -76,6 +88,7 @@ void credit_manager::on_redeem_coupon_clicked()
     QString success_msg = "You Redeemed Coupon %1 With Value of %2 To Account %3\nCurrent Credit: %4";
     success_msg = success_msg.arg(entered_coupon, QString::number(credit_deposit), user, QString::number(current_credit));
     QMessageBox::information(this, "Success!", success_msg);
+    this->parent()->findChild<QLabel *>("user_credit")->setText(QString::number(current_credit));
 }
 
 

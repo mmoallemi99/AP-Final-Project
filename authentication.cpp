@@ -12,7 +12,7 @@
 #include <QSqlTableModel>
 #include <QMessageBox>
 
-
+#include <QDebug>
 
 Authentication::Authentication(QWidget *parent, QSqlDatabase *db) :
     QDialog(parent),
@@ -68,12 +68,14 @@ void Authentication::on_sign_up_clicked()
 {
     QString username = ui->username->text();
     QString password = ui->password->text();
+    bool is_admin = ui->seller_box->checkState();
 
-    bool status = user::sign_up(username, password);
+    bool status = user::sign_up(username, password, is_admin);
 
     if ( status )
     {
         QMessageBox::information(this, "Registration Message", "You Have Registered Successfully!\nNow You Can Login");
+        Authentication::on_login_clicked();
     }
     else
     {
