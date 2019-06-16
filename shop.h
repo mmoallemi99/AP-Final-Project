@@ -1,6 +1,8 @@
 #ifndef SHOP_H
 #define SHOP_H
 
+#include "user.h"
+
 #include <QDialog>
 #include <QSqlDatabase>
 
@@ -13,7 +15,7 @@ class shop : public QDialog
     Q_OBJECT
 
 public:
-    explicit shop(QWidget *parent = 0, QSqlDatabase *db = nullptr, QString user = nullptr);
+    explicit shop(QWidget *parent = nullptr, user *user = nullptr);
     ~shop();
 private slots:
     bool item_buy();
@@ -22,8 +24,9 @@ private slots:
 
 private:
     Ui::shop *ui;
-    QSqlDatabase db;
+     QSqlDatabase db;
     int user_credit;
+    class user *user;
 };
 
 #endif // SHOP_H

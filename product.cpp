@@ -9,7 +9,7 @@
 #include <QObject>
 #include <QSqlDatabase>
 
-Product::Product(QWidget *parent, QSqlDatabase *db):
+Product::Product(QWidget *parent):
     QDialog(parent),
     ui(new Ui::Product)
 {
@@ -36,11 +36,17 @@ Product::~Product()
 void Product::on_add_product_clicked()
 {
     name = this->ui->name_input->text();
-    country = this->ui->name_input->text();
+    country = this->ui->country_input->text();
     type = this->ui->type_select->currentText();
     description = this->ui->description_input->toPlainText();
     price = this->ui->price_input->text().toLongLong();
     stock_available = this->ui->stock_available_input->text().toLong();
+
+    if (  name == "" || country == "" || type == "" || description == "" || price == 0 || stock_available == 0 )
+    {
+        QMessageBox::warning(this, "Invalid Form", "You Must Fill All The Fields");
+        return;
+    }
 
     QSqlQuery query;
     QString qry_cmd = "INSERT INTO main.products(name, country, type, description, price, stock_available)"

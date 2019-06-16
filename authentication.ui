@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Secret Shop Login Page</string>
   </property>
   <widget class="QWidget" name="formLayoutWidget">
    <property name="geometry">
@@ -19,7 +19,7 @@
      <x>140</x>
      <y>80</y>
      <width>351</width>
-     <height>61</height>
+     <height>72</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="login_form">

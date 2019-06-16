@@ -3,14 +3,15 @@
 
 #include "index.h"
 
+#include "user.h"
+
 #include <QString>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QCryptographicHash>
 #include <QSqlTableModel>
-#include <QDebug>
-
 #include <QMessageBox>
+
 
 
 Authentication::Authentication(QWidget *parent, QSqlDatabase *db) :
@@ -21,13 +22,16 @@ Authentication::Authentication(QWidget *parent, QSqlDatabase *db) :
 
     this->db = *db;
 
-
     if ( !db->isOpen() )
+    {
         QMessageBox::information(this, "Connection is ....ed Up!", "");
+        return;
+    }
 
     QString qry_cmd = "CREATE TABLE users (username varchar(30) primary key,"
                       "password varchar(100),"
-                      "credit int);";
+                      "credit int,"
+                      "is_admin int);";
     QSqlQuery query;
     query.prepare(qry_cmd);
     query.exec();
@@ -43,38 +47,18 @@ void Authentication::on_login_clicked()
     QString entered_username = ui->username->text();
     QString entered_password = ui->password->text();
 
-    QString hashed_password;
-    hashed_password = QString(QCryptographicHash::hash((entered_password.toLocal8Bit()), QCryptographicHash::Sha256).toHex());
+    QString log_in_result = user::login(entered_username, entered_password);
 
-    QString qry_cmd = "SELECT * FROM users WHERE username='%1'";
-    qry_cmd = qry_cmd.arg(entered_username);
-    QSqlQuery query;
-    query.exec(qry_cmd);
-
-    if ( !query.next() )
+    if ( log_in_result == "ok")
     {
-        QMessageBox::information(this, "Login Failed", "User Does Not Exist \n Register Now!");
-        return;
+        user *user_logged_in = new user(entered_username);
+        class index index(nullptr, &(this->db), user_logged_in);
+        index.show();
+        index.exec();
     }
-
-    QString username = query.value("username").toString();
-
-    if ( username == entered_username )
+    else
     {
-        QString hashed_password;
-        hashed_password = QString(QCryptographicHash::hash((entered_password.toLocal8Bit()), QCryptographicHash::Sha256).toHex());
-
-        QString password = query.value("password").toString();
-        if ( hashed_password == password )
-        {
-            class index index(nullptr, &(this->db), username);
-            index.show();
-            index.exec();
-        }
-        else
-        {
-            QMessageBox::information(this, "Login Message", "Wrong Username or Password! \n Please Try Again!");
-        }
+        QMessageBox::information(this, "Login Failed", log_in_result);
     }
 
 
@@ -84,18 +68,10 @@ void Authentication::on_sign_up_clicked()
 {
     QString username = ui->username->text();
     QString password = ui->password->text();
-    QString hashed_password;
-    hashed_password = QString(QCryptographicHash::hash((password.toLocal8Bit()), QCryptographicHash::Sha256).toHex());
 
-    QString qry_cmd = "INSERT INTO users(username, password, credit) "
-                      "values(:username, :password, :credit);";
-    QSqlQuery query;
-    query.prepare(qry_cmd);
-    query.bindValue(":username", username);
-    query.bindValue(":password", hashed_password);
-    query.bindValue(":credit", 0);
+    bool status = user::sign_up(username, password);
 
-    if ( query.exec() )
+    if ( status )
     {
         QMessageBox::information(this, "Registration Message", "You Have Registered Successfully!\nNow You Can Login");
     }
@@ -103,7 +79,6 @@ void Authentication::on_sign_up_clicked()
     {
         QMessageBox::information(this, "Registration Message", "Username Exists!\nPlease Use Another Username!");
     }
-
 }
 
 

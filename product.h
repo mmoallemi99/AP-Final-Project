@@ -19,7 +19,7 @@ class Product : public QDialog
     Q_OBJECT
 
 public:
-    explicit Product(QWidget *parent = nullptr, QSqlDatabase *db = nullptr);
+    explicit Product(QWidget *parent = nullptr);
     ~Product();
 
 private slots:
@@ -27,7 +27,6 @@ private slots:
 
 private:
     Ui::Product *ui;
-    QSqlDatabase db;
 
     QString name;
     QString country;

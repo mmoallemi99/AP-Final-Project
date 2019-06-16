@@ -16,27 +16,17 @@
 #include <QTableView>
 
 
-shop::shop(QWidget *parent, QSqlDatabase *db, QString user) :
+shop::shop(QWidget *parent, class user *user) :
     QDialog(parent),
     ui(new Ui::shop)
 {
-    //    ui->setupUi(this);
-
+    this->user = user;
     QString qry_cmd = "SELECT * FROM products;";
     QSqlQuery query;
     query.exec(qry_cmd);
 
-    //    if ( !db->open() )
-    //    {
-    //        QMessageBox::information(this, "", "Can't Connect To Database!");
-    //    }
-    //    else
-    //    {
-    //        QMessageBox::information(this, "", "Connected");
-    //    }
-
-
     QLabel *new_name_label;
+    QLabel *new_country_label;
     QLabel *new_type_label;
     QLabel *new_price_label;
     QLabel *new_available_label;
@@ -48,47 +38,53 @@ shop::shop(QWidget *parent, QSqlDatabase *db, QString user) :
 
     QWidget *all_products_widget = new QWidget(this);
     all_products_widget->setObjectName(QStringLiteral("formLayoutWidget"));
-    all_products_widget->setGeometry(QRect(60, 20, 1024, 512));
+    all_products_widget->setMinimumSize(640, 480);
     QGridLayout *all_products_grid = new QGridLayout(all_products_widget);
     all_products_grid->setObjectName(QStringLiteral("formLayout"));
     all_products_grid->setContentsMargins(0, 0, 0, 0);
 
 
-    new_name_label = new QLabel(this);
-    new_type_label = new QLabel(this);
-    new_price_label = new QLabel(this);
-    new_available_label = new QLabel(this);
+    new_name_label = new QLabel;
+    new_country_label = new QLabel;
+    new_type_label = new QLabel;
+    new_price_label = new QLabel;
+    new_available_label = new QLabel;
 
 
     new_name_label->setObjectName("name_header");
     new_name_label->setText("Product Name");
-    all_products_grid->addWidget(new_name_label, 1, 0, 2, 2);
+    all_products_grid->addWidget(new_name_label, 1, 0);
+
+    new_country_label->setObjectName("country_header");
+    new_country_label->setText("Made In");
+    all_products_grid->addWidget(new_country_label, 1, 1);
 
     new_type_label->setObjectName("type_header");
     new_type_label->setText("Product Type");
-    all_products_grid->addWidget(new_type_label, 1, 1, 2, 2);
+    all_products_grid->addWidget(new_type_label, 1, 2);
 
     new_price_label->setObjectName("price_header");
     new_price_label->setText("Product Price");
-    all_products_grid->addWidget(new_price_label, 1, 2, 2, 2);
+    all_products_grid->addWidget(new_price_label, 1, 3);
 
     new_available_label->setObjectName("avilable_header");
     new_available_label->setText("Stock Available");
-    all_products_grid->addWidget(new_available_label, 1, 3, 2, 2);
+    all_products_grid->addWidget(new_available_label, 1, 4);
 
 
     int i = 2;
 
     while ( query.next() )
     {
-        new_name_label = new QLabel(this);
-        new_type_label = new QLabel(this);
-        new_price_label = new QLabel(this);
-        new_available_label = new QLabel(this);
+        new_name_label = new QLabel;
+        new_country_label = new QLabel;
+        new_type_label = new QLabel;
+        new_price_label = new QLabel;
+        new_available_label = new QLabel;
 
-        new_buy = new QPushButton(this);
-        new_delete = new QPushButton(this);
-        new_edit = new QPushButton(this);
+        new_buy = new QPushButton;
+        new_delete = new QPushButton;
+        new_edit = new QPushButton;
 
         product_dict["name"] = query.value("name").toString();
         product_dict["country"] = query.value("country").toString();
@@ -98,48 +94,57 @@ shop::shop(QWidget *parent, QSqlDatabase *db, QString user) :
 
         new_name_label->setObjectName(product_dict["name"] + "_name");
         new_name_label->setText(product_dict["name"]);
-        all_products_grid->addWidget(new_name_label, i, 0, 1, 1);
+        all_products_grid->addWidget(new_name_label, i, 0);
+
+
+        new_country_label->setObjectName(product_dict["name"] + "_country");
+        new_country_label->setText(product_dict["country"]);
+        all_products_grid->addWidget(new_country_label, i, 1);
 
 
         new_type_label->setObjectName(product_dict["name"] + "_type");
         new_type_label->setText(product_dict["type"]);
-        all_products_grid->addWidget(new_type_label, i, 1, 1, 1);
+        all_products_grid->addWidget(new_type_label, i, 2);
 
         new_price_label->setObjectName(product_dict["name"] + "_price");
         new_price_label->setText(product_dict["price"]);
-        all_products_grid->addWidget(new_price_label, i, 2, 1, 1);
+        all_products_grid->addWidget(new_price_label, i, 3);
 
         new_available_label->setObjectName(product_dict["name"] + "_available");
         new_available_label->setText(product_dict["stock_available"]);
-        all_products_grid->addWidget(new_available_label, i, 3, 1, 1);
+        all_products_grid->addWidget(new_available_label, i, 4);
 
+        if ( !user->get_is_admin() )
+        {
+            new_buy->setObjectName(product_dict["name"] + "_buy");
+            new_buy->setText("buy");
+            all_products_grid->addWidget(new_buy, i, 5);
+            connect(new_buy, SIGNAL(clicked()), this, SLOT (item_buy()));
+        }
+        else
+        {
+            new_edit->setObjectName(product_dict["name"] + "_edit");
+            new_edit->setText("edit");
+            all_products_grid->addWidget(new_edit, i, 6);
+            connect(new_edit, SIGNAL(clicked()), this, SLOT (item_edit()));
 
+            new_delete->setObjectName(product_dict["name"] + "_delete");
+            new_delete->setText("delete");
+            all_products_grid->addWidget(new_delete, i, 5);
+            connect(new_delete, SIGNAL(clicked()), this, SLOT(item_delete()));
+        }
 
-        new_buy->setObjectName(product_dict["name"] + "_buy");
-        new_buy->setText("buy");
-        all_products_grid->addWidget(new_buy, i, 6, 1, 1);
-        connect(new_buy, SIGNAL(clicked()), this, SLOT (item_buy()));
-
-        new_edit->setObjectName(product_dict["name"] + "_edit");
-        new_edit->setText("edit");
-        all_products_grid->addWidget(new_edit, i, 5, 1, 1);
-        connect(new_edit, SIGNAL(clicked()), this, SLOT (item_edit()));
-
-        new_delete->setObjectName(product_dict["name"] + "_delete");
-        new_delete->setText("delete");
-        all_products_grid->addWidget(new_delete, i, 4, 1, 1);
-        connect(new_delete, SIGNAL(clicked()), this, SLOT(item_delete()));
 
         i++;
     }
 
     QLabel *username_label= new QLabel;
     username_label->setObjectName("username_label");
-    username_label->setText(user);
-    all_products_grid->addWidget(username_label, i, 2, 1, 1);
+    username_label->setText(user->get_username());
+    all_products_grid->addWidget(username_label, i, 2);
 
     qry_cmd = "SELECT credit FROM users WHERE username='%1';";
-    qry_cmd = qry_cmd.arg(user);
+    qry_cmd = qry_cmd.arg(user->get_username());
     query.prepare(qry_cmd);
     query.exec();
     query.next();
@@ -149,7 +154,7 @@ shop::shop(QWidget *parent, QSqlDatabase *db, QString user) :
     QLabel *credit_label = new QLabel;
     credit_label->setObjectName("credit_label");
     credit_label->setText(QString::number(user_credit));
-    all_products_grid->addWidget(credit_label, i, 4, 1, 1);
+    all_products_grid->addWidget(credit_label, i, 4);
 }
 
 shop::~shop()
@@ -160,7 +165,7 @@ shop::~shop()
 bool shop::item_buy()
 {
     QObject *sender = this->sender();
-    QString user = sender->parent()->findChild<QLabel *>("username_label")->text();
+    QString username = this->user->get_username();
 
     QString item_name = sender->objectName();
     int name_length = item_name.length();
@@ -200,7 +205,7 @@ bool shop::item_buy()
 
 
     qry_cmd = "UPDATE users SET credit='%1' WHERE username='%2';";
-    qry_cmd = qry_cmd.arg(QString::number(user_credit), user);
+    qry_cmd = qry_cmd.arg(QString::number(user_credit), username);
     query.prepare(qry_cmd);
     query.exec();
 

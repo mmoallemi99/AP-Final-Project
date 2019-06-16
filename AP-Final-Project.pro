@@ -30,7 +30,8 @@ SOURCES += \
     product.cpp \
     index.cpp \
     shop.cpp \
-    credit_manager.cpp
+    credit_manager.cpp \
+    user.cpp
 
 RESOURCES =
 
@@ -40,7 +41,8 @@ HEADERS += \
     index.h \
     product.h \
     shop.h \
-    credit_manager.h
+    credit_manager.h \
+    user.h
 
 
 FORMS += \

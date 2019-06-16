@@ -1,6 +1,8 @@
 #ifndef INDEX_H
 #define INDEX_H
 
+#include "user.h"
+
 #include <QDialog>
 #include <QSqlDatabase>
 
@@ -13,7 +15,7 @@ class index : public QDialog
     Q_OBJECT
 
 public:
-    explicit index(QWidget *parent = nullptr, QSqlDatabase *db = nullptr, QString user = nullptr);
+    explicit index(QWidget *parent = nullptr, QSqlDatabase *db = nullptr, user *user = nullptr);
     ~index();
 
 private slots:
@@ -28,7 +30,7 @@ private slots:
 private:
     Ui::index *ui;
     QSqlDatabase db;
-    QString user;
+    class user *user;
 
 };
 
