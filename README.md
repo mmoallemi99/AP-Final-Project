@@ -1,2 +1,4 @@
 # AP-Final-Project
-Shop
+Advanced Programming Course Final Project
+
+Shopping Software With Database & GUI
